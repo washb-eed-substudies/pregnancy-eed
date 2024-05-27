@@ -1,0 +1,72 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+rm(list=ls())
+source(here::here("0-config.R"))
+library(tibble)
+data <- tibble(x = -10:100, y= -10:100)
+head(data)
+
+data_path <- "bangladesh-cleaned-master-data.RDS"
+d <- readRDS(data_path)
+```
+
+
+```{r}
+
+exposures_y1 <- c("ln_preg_cort", "logCRP", "logAGP", "mom_t0_ln_ifn", "sumscore_t0_mom_Z", "ln_preg_estri")
+outcomes_y1 <- c("ln_mpo1","ln_aat1","ln_neo1", "ln_L_conc_t1","ln_M_conc_t1")
+exposures_y2 <- NULL #IF EXPOSURES ARE MATERNAL PREGNANCY BIOMARKERS DO NOT USE exposures_y2 - OTHERWISE FILL IN WITH EXPOSURES AT YEAR 2
+exposures_y3 <- NULL
+outcomes_y2 <- c("ln_mpo2", "ln_aat2", "ln_neo2", "ln_reg2","ln_L_conc_t2",  "ln_M_conc_t2")
+outcomes_y3 <- c( "ln_mpo3", "ln_aat3","ln_neo3", "ln_L_conc_t3",  "ln_M_conc_t3")
+
+#function for filtering for only participants with at least one outcome
+filtering <- function(row){
+  any(!is.na(row))}
+
+y1_has_exposures<-d[apply(select(d, all_of(exposures_y1)), 1, filtering),]
+y1_has_both<-y1_has_exposures[apply(select(y1_has_exposures, all_of(outcomes_y1)), 1, filtering),]
+y1_clusters<-length(unique(y1_has_both$clusterid))
+y1_n<-nrow(y1_has_both)
+if(is.null(exposures_y2)){
+  y2_has_exposures <- y1_has_exposures
+}else{
+  y2_has_exposures <- d[apply(select(d, all_of(exposures_y2)), 1, filtering),]
+}
+y2_has_both<-y2_has_exposures[apply(select(y2_has_exposures, all_of(outcomes_y2)), 1, filtering),]
+y2_clusters<-length(unique(y2_has_both$clusterid))
+y2_n<-nrow(y2_has_both)
+if(is.null(exposures_y3)){
+  y3_has_exposures <- y2_has_exposures
+}else{
+  y3_has_exposures <- d[apply(select(d, all_of(exposures_y3)), 1, filtering),]
+}
+y3_has_both<-y3_has_exposures[apply(select(y3_has_exposures, all_of(outcomes_y3)), 1, filtering),]
+y3_clusters<-length(unique(y3_has_both$clusterid))
+y3_n<-nrow(y3_has_both)
+
+```
+
+```{r}
+month3 <- 565 - y1_n
+month14 <- 756-y2_n
+month28 <- 759- y3_n
+y1_clusters
+y2_clusters
+y3_clusters
+y1_n
+y2_n
+y3_n
+```
+
+
+
+

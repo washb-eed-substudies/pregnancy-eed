@@ -1,0 +1,296 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(boxr)
+library(dplyr)
+library(ggplot2)
+library(ggcorrplot)
+library(gridExtra)
+library(tidyverse)
+library(haven)
+library(washb)
+library(foreign)
+library(data.table)
+library(tmle)
+library(SuperLearner)
+library(devtools)
+library(kableExtra)
+library(here)
+library(cowplot)
+library(mgcv)
+library(psych)
+library(devtools)
+library(washbgam) 
+#install_github("ben-arnold/washb")
+
+library(here)
+source("0-config.R")
+```
+
+```{r}
+# Construct the path to the RDS file directly within the project folder
+data_path <- "bangladesh-cleaned-master-data.RDS"
+
+# Read the data from the RDS file
+d <- readRDS(data_path)
+
+```
+
+```{r}
+#Maternal cortisol is positively/negatively associated with child EED
+
+Xvars <- c("ln_preg_estri")
+Yvars <- c("ln_mpo1", "ln_mpo2", "ln_mpo3", "ln_aat1", "ln_aat2", "ln_aat3", "ln_neo1", "ln_neo2", "ln_neo3", "ln_reg2", "ln_L_conc_t1", "ln_L_conc_t2", "ln_L_conc_t3", "ln_M_conc_t1", "ln_M_conc_t2", "ln_M_conc_t3")
+
+
+#Fit models
+H3_models <- NULL
+for(i in Xvars){
+  for(j in Yvars){
+    res_unadj <- fit_RE_gam(d=d, X=i, Y=j,  W=NULL, V="tr")
+    res <- data.frame(X=i, Y=j, V="tr", int.p =res_unadj$int.p, fit=I(list(res_unadj$fit)), dat=I(list(res_unadj$dat)))
+    H3_models <- bind_rows(H3_models, res)
+  }
+}
+
+#Debug the gam_EMM
+H3_models$X
+
+#Get primary contrasts
+H3_res <- NULL
+for(i in 1:nrow(H3_models)){
+  res <- data.frame(X=H3_models$X[i], Y=H3_models$Y[i])
+  if(grepl("_def", H3_models$X[i])){
+    preds <- predict_gam_emm(fit=H3_models$fit[i][[1]], d=H3_models$dat[i][[1]], quantile_diff=c(0.25,0.75), Xvar=H3_models$X[i], Yvar=H3_models$Y[i], binaryX=T)
+  }else{
+    preds <- predict_gam_emm(fit=H3_models$fit[i][[1]], d=H3_models$dat[i][[1]], quantile_diff=c(0.25,0.75), Xvar=H3_models$X[i], Yvar=H3_models$Y[i])
+  }
+  gamm_diff_res <- data.frame(V=H3_models$V[i] , preds$res) %>% mutate(int.Pval = c(NA, H3_models$int.p[[i]]))
+  
+  H3_res <-  bind_rows(H3_res , gamm_diff_res)
+}
+
+#Make list of plots
+H3_plot_list <- NULL
+H3_plot_data <- NULL
+for(i in 1:nrow(H3_models)){
+  res <- data.frame(X=H3_models$X[i], Y=H3_models$Y[i])
+  simul_plot <- gam_simul_CI(H3_models$fit[i][[1]], H3_models$dat[i][[1]], xlab=res$X, ylab=res$Y, title="")
+  H3_plot_list[[i]] <-  simul_plot$p
+  H3_plot_data <-  rbind(H3_plot_data, data.frame(Xvar=res$X, Yvar=res$Y, adj=0, simul_plot$pred))
+}
+
+H3_res <- H3_res %>% mutate(BH.Pval=p.adjust(Pval, method="BH"),
+                            BH.Pval.int=p.adjust(int.Pval, method="BH")) 
+
+#Save models
+saveRDS(H3_models, here("models/emm_tr3.RDS"))
+
+#Save results
+saveRDS(H3_res, here("results/unadjusted/emm_tr_res3.RDS"))
+
+#Save plot data
+saveRDS(H3_plot_data, here("figure-data/em_unadj_spline_data3.RDS"))
+
+
+
+```
+
+```{r}
+#Set list of adjustment variables
+#Make vectors of adjustment variable names
+Wvars<-c("sex","birthord", "momage","momheight","momedu","gest_age_weeks",
+         "hfiacat", "Nlt18","Ncomp", "watmin", "walls", "floor", "HHwealth_scaled",
+         "life_viol_any_t3_cat", "viol_any_preg_cat")
+
+Wvars[!(Wvars %in% colnames(d))]
+
+#Add in time varying covariates:
+Wvars2 <- c(Wvars, c("ageday_bt2", "month_blood_t0", "month_bt2"))
+Wvars3 <- c(Wvars, c("ageday_bt3", "month_blood_t0", "month_bt3"))
+
+pick_covariates <- function(j){
+  # j is outcome as string
+  # choose correct adjustment set based on outcome
+  if(grepl("t2", j)){Wset = Wvars2}
+  else{Wset = Wvars3}
+  return(Wset)
+}
+
+H3_adj_models <- NULL
+for(i in Xvars){
+  for(j in Yvars){
+    print(i)
+    print(j)
+    Wset<-pick_covariates(j)
+    res_adj <- fit_RE_gam(d=d, X=i, Y=j,  W=Wset, V="tr")
+    res <- data.frame(X=i, Y=j, V="tr", int.p =res_adj$int.p, fit=I(list(res_adj$fit)), dat=I(list(res_adj$dat)))
+    H3_adj_models <- bind_rows(H3_adj_models, res)
+  }
+}
+
+#Get primary contrasts
+H3_adj_res <- NULL
+for(i in 1:nrow(H3_adj_models)){
+  res <- data.frame(X=H3_adj_models$X[i], Y=H3_adj_models$Y[i])
+  if(grepl("_def", H3_adj_models$X[i])){
+    preds <- predict_gam_emm(fit=H3_adj_models$fit[i][[1]], d=H3_adj_models$dat[i][[1]], quantile_diff=c(0.25,0.75), Xvar=H3_adj_models$X[i], Yvar=H3_adj_models$Y[i], binaryX=T)
+  }else{
+    preds <- predict_gam_emm(fit=H3_adj_models$fit[i][[1]], d=H3_adj_models$dat[i][[1]], quantile_diff=c(0.25,0.75), Xvar=H3_adj_models$X[i], Yvar=H3_adj_models$Y[i])
+  }
+  gamm_diff_res <- data.frame(V=H3_adj_models$V[i] , preds$res) %>% mutate(int.Pval = c(NA, H3_adj_models$int.p[[i]]))
+  
+  H3_adj_res <-  bind_rows(H3_adj_res , gamm_diff_res)
+}
+
+
+#Make list of plots
+H3_adj_plot_list <- NULL
+H3_adj_plot_data <- NULL
+for(i in 1:nrow(H3_adj_models)){
+  res <- data.frame(X=H3_adj_models$X[i], Y=H3_adj_models$Y[i])
+  simul_plot <- gam_simul_CI(H3_adj_models$fit[i][[1]], H3_adj_models$dat[i][[1]], xlab=res$X, ylab=res$Y, title="")
+  H3_adj_plot_list[[i]] <-  simul_plot$p
+  H3_adj_plot_data <-  rbind(H3_adj_plot_data, data.frame(Xvar=res$X, Yvar=res$Y, adj=0, simul_plot$pred %>% subset(., select = c(Y,X,id,fit,se.fit,uprP, lwrP,uprS,lwrS))))
+}
+
+H3_adj_res <- H3_adj_res %>% mutate(BH.Pval=p.adjust(Pval, method="BH"),
+                                    BH.Pval.int=p.adjust(int.Pval, method="BH")) 
+
+#Save results
+saveRDS(H3_adj_res, here("results/adjusted/emm_tr_adj_res3.RDS"))
+
+#Save plot data
+saveRDS(H3_adj_plot_data, here("figure-data/emm_tr_adj_spline.data3.RDS"))
+
+
+
+```
+
+```{r}
+#Make EM Tables
+
+rm(list=ls())
+
+source(here::here("0-config.R"))
+source(here::here("table-functions.R"))
+
+emm <- readRDS(here('results/adjusted/emm_tr_adj_res3.RDS'))
+
+
+# create the subgroup_tbl function
+subgroup_tbl <- function(name, expo_var, out_var, sub_var, exposure, outcome, subgroup, results, sub_col_size = 1, exp_col_size = 1, out_col_size = 1){
+  # build table
+  tbl <- data.table(matrix(nrow=0, ncol=10))
+  skippedexp<-F
+  for (k in 1:length(subgroup)){
+    num.sub <- 0
+    for (i in 1:length(exposure)) {
+      for (j in 1:length(outcome)) {
+        sub <- subgroup[k]
+        exp <- exposure[i]
+        out <- outcome[j]
+        
+        filtered_adj <- results[results$Y==out & results$X==exp & results$V==sub,] %>% arrange(Vlevel)
+        
+        if (nrow(filtered_adj)==0){
+          skippedexp<-T
+          next
+        }
+        
+        for (l in 1:nrow(filtered_adj)) {
+          v <- paste(round(filtered_adj$`point.diff`[l], 2), " (", round(filtered_adj$`lb.diff`[l], 2), ", ", round(filtered_adj$`ub.diff`[l], 2), ")", sep="")
+          
+          if((i==1 & j==1)|num.sub==0){
+            s_name <- sub_var[k]
+            num.sub <- num.sub+1
+          }else{
+            s_name <- " "
+          }
+          
+          if(j==1|skippedexp==T){
+            e_name <- expo_var[i]
+            skippedexp <- F
+          }else{
+            e_name <- " "
+          }
+          
+          if(class(filtered_adj$Vlevel) == "character"){
+            level <- filtered_adj$Vlevel[l]
+          }else{
+            level <- round(filtered_adj$Vlevel[l], 2)
+          }
+          
+          if(l == 1){
+            tbl <- rbind(tbl, list(s_name, e_name, out_var[j], filtered_adj$N[l], level,
+                                   v, ifelse(!filtered_adj$Pval[l]%>%is.na(),round(filtered_adj$Pval[l], 2), NA), 
+                                   ifelse(!filtered_adj$BH.Pval[l]%>%is.na(), round(filtered_adj$BH.Pval[l], 2),NA),"",""))
+            
+          }else if(l != nrow(filtered_adj)){
+            tbl <- rbind(tbl, list(" ", " ", " ", " ", level, 
+                                   v, ifelse(!filtered_adj$Pval[l]%>%is.na(),round(filtered_adj$Pval[l], 2), NA), 
+                                   ifelse(!filtered_adj$BH.Pval[l]%>%is.na(), round(filtered_adj$BH.Pval[l], 2),NA),"",""))
+          }else{
+            has_int_pval <- filtered_adj %>% filter(!is.na(int.Pval))
+            tbl <- rbind(tbl, list(" ", " ", " ", " ", level, 
+                                   v, ifelse(!filtered_adj$Pval[l]%>%is.na(),round(filtered_adj$Pval[l], 2), NA), 
+                                   ifelse(!filtered_adj$BH.Pval[l]%>%is.na(), round(filtered_adj$BH.Pval[l], 2),NA), 
+                                   round(has_int_pval$int.Pval[1], 2), round(has_int_pval$BH.Pval.int[1], 2)))
+          }
+        }
+      }
+      
+      if (i != length(exposure)) {
+        tbl <- rbind(tbl, as.list(rep("",10)))
+      }
+    }
+    if (k != length(subgroup)){
+      tbl <- rbind(tbl, as.list(rep("",10)))
+    }
+  }
+  
+  flextbl<-flextable(tbl, col_keys=names(tbl))
+  flextbl <- set_header_labels(flextbl,
+                               values = list("V1" = " ", "V2" = " ", "V3" = " ", "V4" = " ",
+                                             "V5" = " ", "V6" = "Coefficient (95% CI)", "V7" = "P-value", "V8" = "FDR Corrected P-value",
+                                             "V9" = "Interaction P-value", "V10" = "FDR Corrected Interaction P-value"))
+  flextbl <- add_header_row(flextbl, values = c("","","","","","Adjusted"), colwidths=c(1,1,1,1,1,5))
+  flextbl <- add_header_row(flextbl, values = c("Effect Modifier", name, "Outcome", "N", "Modifier value", 
+                                                "Outcome, 75th Percentile v. 25th Percentile of Exposure"), colwidths=c(1,1,1,1,1,5))
+  flextbl <- hline(flextbl, part="header", border=fp_border(color="black"))
+  flextbl <- hline_bottom(flextbl, part="body", border=fp_border(color="black"))
+  flextbl <- hline_top(flextbl, part="header", border=fp_border(color="black"))
+  flextbl <- align(flextbl, align = "center", part = "all")
+  flextbl <- align(flextbl, j = c(1, 2, 3), align = "left", part="all")
+  flextbl <- fontsize(flextbl, part = "all", size = 6)
+  flextbl <- width(flextbl, 1:10, width=c(sub_col_size, exp_col_size, out_col_size, .3, .5, 1.1, .4, .8, .7, .8))
+  
+  flextbl
+}
+
+
+```
+
+
+
+```{r}
+tbl3 <- subgroup_tbl("Maternal Estriol", 
+                     c("Ln Estriol (ng/mL)"),
+                     c("Ln Lactulose Age 3 months (mmol/L)", "Ln Mannitol Age 3 months (mmol/L)", "Ln MPO Age 3 months (ng/mL)", "Ln A1AT Age 3 months(mg/g)", "Ln NEO Age 3 months (nmol/L)", "Ln Lactulose Age 14 months (mmol/L)", "Ln Mannitol Age 14 months (mmol/L)", "Ln MPO Age 14 months (ng/mL)", "Ln A1AT Age 14 months(mg/g)", "Ln NEO Age 14 months (nmol/L)", "Ln REG1β Age 14 months (µg/mL)", "Ln Lactulose Age 28 months (mmol/L)", "Ln Mannitol Age 28 months (mmol/L)", "Ln MPO Age 28 months (ng/mL)", "Ln A1AT Age 28 months(mg/g)", "Ln NEO Age 28 months (nmol/L)"), 
+                     c("Arm"), 
+                     c("ln_preg_estri"),
+                     c("ln_mpo1", "ln_mpo2", "ln_mpo3", "ln_aat1", "ln_aat2", "ln_aat3", "ln_neo1", "ln_neo2", "ln_neo3", "ln_reg2", "ln_L_conc_t1", "ln_L_conc_t2", "ln_L_conc_t3", "ln_M_conc_t1", "ln_M_conc_t2", "ln_M_conc_t3"),
+                     c("tr"), emm)
+
+save_as_docx("EMM Table: Effect modification of maternal estriol and child environmental enteric dysfunction by treatment arm" = tbl3,
+            path='/Users/xianshengyan/pregnancy-eed/EMM/EMM3.docx',
+             pr_section = sect_properties)
+```
+
+```{r}
+
+```
+
