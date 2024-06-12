@@ -27,12 +27,13 @@ library(washbgam)
 #install_github("ben-arnold/washb")
 
 library(here)
+source("table-functions.R")
 source("0-config.R")
 ```
 
 ```{r}
 # Construct the path to the RDS file directly within the project folder
-data_path <- "bangladesh-cleaned-master-data.RDS"
+data_path <- "/Users/xianshengyan/pregnancy-eed/src/bangladesh-cleaned-master-data.RDS"
 
 # Read the data from the RDS file
 d <- readRDS(data_path)
@@ -175,8 +176,8 @@ saveRDS(H3_adj_plot_data, here("figure-data/emm_tr_adj_spline.data3.RDS"))
 
 rm(list=ls())
 
-source(here::here("0-config.R"))
-source(here::here("table-functions.R"))
+
+source("table-functions.R")
 
 emm <- readRDS(here('results/adjusted/emm_tr_adj_res3.RDS'))
 
@@ -279,7 +280,7 @@ subgroup_tbl <- function(name, expo_var, out_var, sub_var, exposure, outcome, su
 ```{r}
 tbl3 <- subgroup_tbl("Maternal Estriol", 
                      c("Ln Estriol (ng/mL)"),
-                     c("Ln Lactulose Age 3 months (mmol/L)", "Ln Mannitol Age 3 months (mmol/L)", "Ln MPO Age 3 months (ng/mL)", "Ln A1AT Age 3 months(mg/g)", "Ln NEO Age 3 months (nmol/L)", "Ln Lactulose Age 14 months (mmol/L)", "Ln Mannitol Age 14 months (mmol/L)", "Ln MPO Age 14 months (ng/mL)", "Ln A1AT Age 14 months(mg/g)", "Ln NEO Age 14 months (nmol/L)", "Ln REG1β Age 14 months (µg/mL)", "Ln Lactulose Age 28 months (mmol/L)", "Ln Mannitol Age 28 months (mmol/L)", "Ln MPO Age 28 months (ng/mL)", "Ln A1AT Age 28 months(mg/g)", "Ln NEO Age 28 months (nmol/L)"), 
+                     c("Ln Lactulose Age 3 months (mmol/L)", "Ln Mannitol Age 3 months (mmol/L)", "Ln MPO Age 3 months (ng/mL)", "Ln AAT Age 3 months(mg/g)", "Ln NEO Age 3 months (nmol/L)", "Ln Lactulose Age 14 months (mmol/L)", "Ln Mannitol Age 14 months (mmol/L)", "Ln MPO Age 14 months (ng/mL)", "Ln AAT Age 14 months(mg/g)", "Ln NEO Age 14 months (nmol/L)", "Ln REG1β Age 14 months (µg/mL)", "Ln Lactulose Age 28 months (mmol/L)", "Ln Mannitol Age 28 months (mmol/L)", "Ln MPO Age 28 months (ng/mL)", "Ln AAT Age 28 months(mg/g)", "Ln NEO Age 28 months (nmol/L)"), 
                      c("Arm"), 
                      c("ln_preg_estri"),
                      c("ln_mpo1", "ln_mpo2", "ln_mpo3", "ln_aat1", "ln_aat2", "ln_aat3", "ln_neo1", "ln_neo2", "ln_neo3", "ln_reg2", "ln_L_conc_t1", "ln_L_conc_t2", "ln_L_conc_t3", "ln_M_conc_t1", "ln_M_conc_t2", "ln_M_conc_t3"),

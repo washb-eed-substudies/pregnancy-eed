@@ -31,10 +31,10 @@ source("table-functions.R")
 ```
 
 ```{r}
-H1 <- readRDS('results/unadjusted/H1_BH_res.RDS')
-H3 <- readRDS('results/unadjusted/H3_BH_res.RDS')
-H1adj <- readRDS('results/adjusted/H1_BH_adj_res.RDS')
-H3adj <- readRDS('results/adjusted/H3_BH_adj_res.RDS')
+H1 <- readRDS('/Users/xianshengyan/pregnancy-eed/results/unadjusted/H1_BH_res.RDS')
+H3 <- readRDS('/Users/xianshengyan/pregnancy-eed/results/unadjusted/H3_BH_res.RDS')
+H1adj <- readRDS('/Users/xianshengyan/pregnancy-eed/results/adjusted/H1_BH_adj_res.RDS')
+H3adj <- readRDS('/Users/xianshengyan/pregnancy-eed/results/adjusted/H3_BH_adj_res.RDS')
 
 full_res <- rbind(H1, H3)
 full_adj_res <- rbind(H1adj, H3adj)
@@ -58,7 +58,7 @@ outcome <- c("ln_L_conc_t1", "ln_M_conc_t1", "ln_mpo1", "ln_aat1", "ln_neo1", "l
  
 expo_var <- c("Ln Cortisol (ug/dL)") 
  
-out_var <- c("Ln Lactulose 3 months (mmol/L)", "Ln Mannitol 3 months (mmol/L)", "Ln MPO Age 3 months (ng/mL)", "Ln A1AT Age 3 months(mg/g)", "Ln NEO Age 3 months (nmol/L)", "Ln Lactulose 14 months (mmol/L)", "Ln Mannitol 14 months (mmol/L)", "Ln MPO Age 14 months (ng/mL)", "Ln A1AT Age 14 months(mg/g)", "Ln NEO Age 14 months (nmol/L)", "Ln REG1β Age 14 months (µg/mL)", "Ln Lactulose 28 months (mmol/L)", "Ln Mannitol 28 months (mmol/L)", "Ln MPO Age 28 months (ng/mL)", "Ln A1AT Age 28 months(mg/g)", "Ln NEO Age 28 months (nmol/L)")
+out_var <- c("Ln Lactulose Age 3 months (mmol/L)", "Ln Mannitol Age 3 months (mmol/L)", "Ln MPO Age 3 months (ng/mL)", "Ln AAT Age 3 months(mg/g)", "Ln NEO Age 3 months (nmol/L)", "Ln Lactulose Age 14 months (mmol/L)", "Ln Mannitol Age 14 months (mmol/L)", "Ln MPO Age 14 months (ng/mL)", "Ln AAT Age 14 months(mg/g)", "Ln NEO Age 14 months (nmol/L)", "Ln REG1β Age 14 months (µg/mL)", "Ln Lactulose 28 months (mmol/L)", "Ln Mannitol Age 28 months (mmol/L)", "Ln MPO Age 28 months (ng/mL)", "Ln AAT Age 28 months(mg/g)", "Ln NEO Age 28 months (nmol/L)")
  
 tbl1 <- growth_tbl("Maternal Cortisol and Child EED Biomarkers", expo_var, out_var, exposure, outcome, H1, H1adj, T)
 tbl1flex <- growth_tbl_flex("Maternal Cortisol and EED", expo_var, out_var, exposure, outcome, H1, H1adj, T, 1.1, 1.4)
@@ -72,7 +72,7 @@ outcome <- c("ln_L_conc_t1", "ln_M_conc_t1", "ln_mpo1", "ln_aat1", "ln_neo1", "l
  
 expo_var <- c("Ln Estriol (ng/mL)") 
  
-out_var <- c("Ln Lactulose 3 months (mmol/L)", "Ln Mannitol 3 months (mmol/L)", "Ln MPO Age 3 months (ng/mL)", "Ln A1AT Age 3 months(mg/g)", "Ln NEO Age 3 months (nmol/L)", "Ln Lactulose 14 months (mmol/L)", "Ln Mannitol 14 months (mmol/L)", "Ln MPO Age 14 months (ng/mL)", "Ln A1AT Age 14 months(mg/g)", "Ln NEO Age 14 months (nmol/L)", "Ln REG1β Age 14 months (µg/mL)", "Ln Lactulose 28 months (mmol/L)", "Ln Mannitol 28 months (mmol/L)", "Ln MPO Age 28 months (ng/mL)", "Ln A1AT Age 28 months(mg/g)", "Ln NEO Age 28 months (nmol/L)")
+out_var <- c("Ln Lactulose Age 3 months (mmol/L)", "Ln Mannitol Age 3 months (mmol/L)", "Ln MPO Age 3 months (ng/mL)", "Ln AAT Age 3 months(mg/g)", "Ln NEO Age 3 months (nmol/L)", "Ln Lactulose Age 14 months (mmol/L)", "Ln Mannitol Age 14 months (mmol/L)", "Ln MPO Age 14 months (ng/mL)", "Ln AAT Age 14 months(mg/g)", "Ln NEO Age 14 months (nmol/L)", "Ln REG1β Age 14 months (µg/mL)", "Ln Lactulose 28 months (mmol/L)", "Ln Mannitol Age 28 months (mmol/L)", "Ln MPO Age 28 months (ng/mL)", "Ln AAT Age 28 months(mg/g)", "Ln NEO Age 28 months (nmol/L)")
  
 tbl3 <- growth_tbl("Maternal Estriol and Child EED Biomarkers", expo_var, out_var, exposure, outcome, H3, H3adj, T)
 tbl3flex <- growth_tbl_flex("Maternal Estriol and EED", expo_var, out_var, exposure, outcome, H3, H3adj, T, 1.1, 1.4)
@@ -86,14 +86,14 @@ tbl3flexsupp <- growth_tbl_flex("Maternal Estriol and Child EED Biomarkers", exp
 ```{r}
 #### SAVE TABLES ####
 
-write.csv(tbl1, 'tables/main/pregnancy-eed-table1.csv')
-write.csv(tbl1supp, 'tables/supplementary/eed-supptable1.csv')
+write.csv(tbl1, '/Users/xianshengyan/pregnancy-eed/tables/main/pregnancy-eed-table1.csv')
+write.csv(tbl1supp, '/Users/xianshengyan/pregnancy-eed/tables/supplementary/eed-supptable1.csv')
 
 
 #### SAVE TABLES ####
 
-write.csv(tbl3,'tables/main/pregnancy-eed-table3.csv')
-write.csv(tbl3supp, 'tables/supplementary/eed-supptable3.csv')
+write.csv(tbl3,'/Users/xianshengyan/pregnancy-eed/tables/main/pregnancy-eed-table3.csv')
+write.csv(tbl3supp, '/Users/xianshengyan/pregnancy-eed/tables/supplementary/eed-supptable3.csv')
 
 save_as_docx("Table 1: Maternal Cortisol and Child EED Biomarkers" = tbl1flex, "Table 3: Maternal Estriol and Child EED Biomarkers" = tbl3flex,
              path='/Users/xianshengyan/pregnancy-eed/tables/pregnancy-eed.docx', pr_section = sect_properties) 

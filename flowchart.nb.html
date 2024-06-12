@@ -1760,28 +1760,44 @@ the chunk or by placing your cursor inside it and pressing
 <em>Cmd+Shift+Enter</em>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdD1scygpKVxuc291cmNlKGhlcmU6OmhlcmUoXCIwLWNvbmZpZy5SXCIpKVxubGlicmFyeSh0aWJibGUpXG5kYXRhIDwtIHRpYmJsZSh4ID0gLTEwOjEwMCwgeT0gLTEwOjEwMClcbmhlYWQoZGF0YSlcblxuZGF0YV9wYXRoIDwtIFwiYmFuZ2xhZGVzaC1jbGVhbmVkLW1hc3Rlci1kYXRhLlJEU1wiXG5kIDwtIHJlYWRSRFMoZGF0YV9wYXRoKVxuYGBgIn0= -->
-<pre class="r"><code>rm(list=ls())
-source(here::here(&quot;0-config.R&quot;))
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucm0obGlzdD1scygpKVxuc291cmNlKGhlcmU6OmhlcmUoXFwwLWNvbmZpZy5SXFwpKVxubGlicmFyeSh0aWJibGUpXG5kYXRhIDwtIHRpYmJsZSh4ID0gLTEwOjEwMCwgeT0gLTEwOjEwMClcbmhlYWQoZGF0YSlcblxuZGF0YV9wYXRoIDwtIFxcYmFuZ2xhZGVzaC1jbGVhbmVkLW1hc3Rlci1kYXRhLlJEU1xcXG5kIDwtIHJlYWRSRFMoZGF0YV9wYXRoKVxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+rm(list=ls())
+source(here::here(\0-config.R\))
 library(tibble)
 data &lt;- tibble(x = -10:100, y= -10:100)
 head(data)
 
-data_path &lt;- &quot;bangladesh-cleaned-master-data.RDS&quot;
+data_path &lt;- \bangladesh-cleaned-master-data.RDS\
 d &lt;- readRDS(data_path)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5leHBvc3VyZXNfeTEgPC0gYyhcImxuX3ByZWdfY29ydFwiLCBcImxvZ0NSUFwiLCBcImxvZ0FHUFwiLCBcIm1vbV90MF9sbl9pZm5cIiwgXCJzdW1zY29yZV90MF9tb21fWlwiLCBcImxuX3ByZWdfZXN0cmlcIilcbm91dGNvbWVzX3kxIDwtIGMoXCJsbl9tcG8xXCIsXCJsbl9hYXQxXCIsXCJsbl9uZW8xXCIsIFwibG5fTF9jb25jX3QxXCIsXCJsbl9NX2NvbmNfdDFcIilcbmV4cG9zdXJlc195MiA8LSBOVUxMICNJRiBFWFBPU1VSRVMgQVJFIE1BVEVSTkFMIFBSRUdOQU5DWSBCSU9NQVJLRVJTIERPIE5PVCBVU0UgZXhwb3N1cmVzX3kyIC0gT1RIRVJXSVNFIEZJTEwgSU4gV0lUSCBFWFBPU1VSRVMgQVQgWUVBUiAyXG5leHBvc3VyZXNfeTMgPC0gTlVMTFxub3V0Y29tZXNfeTIgPC0gYyhcImxuX21wbzJcIiwgXCJsbl9hYXQyXCIsIFwibG5fbmVvMlwiLCBcImxuX3JlZzJcIixcImxuX0xfY29uY190MlwiLCAgXCJsbl9NX2NvbmNfdDJcIilcbm91dGNvbWVzX3kzIDwtIGMoIFwibG5fbXBvM1wiLCBcImxuX2FhdDNcIixcImxuX25lbzNcIiwgXCJsbl9MX2NvbmNfdDNcIiwgIFwibG5fTV9jb25jX3QzXCIpXG5cbiNmdW5jdGlvbiBmb3IgZmlsdGVyaW5nIGZvciBvbmx5IHBhcnRpY2lwYW50cyB3aXRoIGF0IGxlYXN0IG9uZSBvdXRjb21lXG5maWx0ZXJpbmcgPC0gZnVuY3Rpb24ocm93KXtcbiAgYW55KCFpcy5uYShyb3cpKX1cblxueTFfaGFzX2V4cG9zdXJlczwtZFthcHBseShzZWxlY3QoZCwgYWxsX29mKGV4cG9zdXJlc195MSkpLCAxLCBmaWx0ZXJpbmcpLF1cbnkxX2hhc19ib3RoPC15MV9oYXNfZXhwb3N1cmVzW2FwcGx5KHNlbGVjdCh5MV9oYXNfZXhwb3N1cmVzLCBhbGxfb2Yob3V0Y29tZXNfeTEpKSwgMSwgZmlsdGVyaW5nKSxdXG55MV9jbHVzdGVyczwtbGVuZ3RoKHVuaXF1ZSh5MV9oYXNfYm90aCRjbHVzdGVyaWQpKVxueTFfbjwtbnJvdyh5MV9oYXNfYm90aClcbmlmKGlzLm51bGwoZXhwb3N1cmVzX3kyKSl7XG4gIHkyX2hhc19leHBvc3VyZXMgPC0geTFfaGFzX2V4cG9zdXJlc1xufWVsc2V7XG4gIHkyX2hhc19leHBvc3VyZXMgPC0gZFthcHBseShzZWxlY3QoZCwgYWxsX29mKGV4cG9zdXJlc195MikpLCAxLCBmaWx0ZXJpbmcpLF1cbn1cbnkyX2hhc19ib3RoPC15Ml9oYXNfZXhwb3N1cmVzW2FwcGx5KHNlbGVjdCh5Ml9oYXNfZXhwb3N1cmVzLCBhbGxfb2Yob3V0Y29tZXNfeTIpKSwgMSwgZmlsdGVyaW5nKSxdXG55Ml9jbHVzdGVyczwtbGVuZ3RoKHVuaXF1ZSh5Ml9oYXNfYm90aCRjbHVzdGVyaWQpKVxueTJfbjwtbnJvdyh5Ml9oYXNfYm90aClcbmlmKGlzLm51bGwoZXhwb3N1cmVzX3kzKSl7XG4gIHkzX2hhc19leHBvc3VyZXMgPC0geTJfaGFzX2V4cG9zdXJlc1xufWVsc2V7XG4gIHkzX2hhc19leHBvc3VyZXMgPC0gZFthcHBseShzZWxlY3QoZCwgYWxsX29mKGV4cG9zdXJlc195MykpLCAxLCBmaWx0ZXJpbmcpLF1cbn1cbnkzX2hhc19ib3RoPC15M19oYXNfZXhwb3N1cmVzW2FwcGx5KHNlbGVjdCh5M19oYXNfZXhwb3N1cmVzLCBhbGxfb2Yob3V0Y29tZXNfeTMpKSwgMSwgZmlsdGVyaW5nKSxdXG55M19jbHVzdGVyczwtbGVuZ3RoKHVuaXF1ZSh5M19oYXNfYm90aCRjbHVzdGVyaWQpKVxueTNfbjwtbnJvdyh5M19oYXNfYm90aClcblxuYGBgIn0= -->
-<pre class="r"><code>
-exposures_y1 &lt;- c(&quot;ln_preg_cort&quot;, &quot;logCRP&quot;, &quot;logAGP&quot;, &quot;mom_t0_ln_ifn&quot;, &quot;sumscore_t0_mom_Z&quot;, &quot;ln_preg_estri&quot;)
-outcomes_y1 &lt;- c(&quot;ln_mpo1&quot;,&quot;ln_aat1&quot;,&quot;ln_neo1&quot;, &quot;ln_L_conc_t1&quot;,&quot;ln_M_conc_t1&quot;)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5leHBvc3VyZXNfeTEgPC0gYyhcXGxuX3ByZWdfY29ydFxcLCBcXGxvZ0NSUFxcLCBcXGxvZ0FHUFxcLCBcXG1vbV90MF9sbl9pZm5cXCwgXFxzdW1zY29yZV90MF9tb21fWlxcLCBcXGxuX3ByZWdfZXN0cmlcXClcbm91dGNvbWVzX3kxIDwtIGMoXFxsbl9tcG8xXFwsXFxsbl9hYXQxXFwsXFxsbl9uZW8xXFwsIFxcbG5fTF9jb25jX3QxXFwsXFxsbl9NX2NvbmNfdDFcXClcbmV4cG9zdXJlc195MiA8LSBOVUxMICNJRiBFWFBPU1VSRVMgQVJFIE1BVEVSTkFMIFBSRUdOQU5DWSBCSU9NQVJLRVJTIERPIE5PVCBVU0UgZXhwb3N1cmVzX3kyIC0gT1RIRVJXSVNFIEZJTEwgSU4gV0lUSCBFWFBPU1VSRVMgQVQgWUVBUiAyXG5leHBvc3VyZXNfeTMgPC0gTlVMTFxub3V0Y29tZXNfeTIgPC0gYyhcXGxuX21wbzJcXCwgXFxsbl9hYXQyXFwsIFxcbG5fbmVvMlxcLCBcXGxuX3JlZzJcXCxcXGxuX0xfY29uY190MlxcLCAgXFxsbl9NX2NvbmNfdDJcXClcbm91dGNvbWVzX3kzIDwtIGMoIFxcbG5fbXBvM1xcLCBcXGxuX2FhdDNcXCxcXGxuX25lbzNcXCwgXFxsbl9MX2NvbmNfdDNcXCwgIFxcbG5fTV9jb25jX3QzXFwpXG5cbiNmdW5jdGlvbiBmb3IgZmlsdGVyaW5nIGZvciBvbmx5IHBhcnRpY2lwYW50cyB3aXRoIGF0IGxlYXN0IG9uZSBvdXRjb21lXG5maWx0ZXJpbmcgPC0gZnVuY3Rpb24ocm93KXtcbiAgYW55KCFpcy5uYShyb3cpKX1cblxueTFfaGFzX2V4cG9zdXJlczwtZFthcHBseShzZWxlY3QoZCwgYWxsX29mKGV4cG9zdXJlc195MSkpLCAxLCBmaWx0ZXJpbmcpLF1cbnkxX2hhc19ib3RoPC15MV9oYXNfZXhwb3N1cmVzW2FwcGx5KHNlbGVjdCh5MV9oYXNfZXhwb3N1cmVzLCBhbGxfb2Yob3V0Y29tZXNfeTEpKSwgMSwgZmlsdGVyaW5nKSxdXG55MV9jbHVzdGVyczwtbGVuZ3RoKHVuaXF1ZSh5MV9oYXNfYm90aCRjbHVzdGVyaWQpKVxueTFfbjwtbnJvdyh5MV9oYXNfYm90aClcbmlmKGlzLm51bGwoZXhwb3N1cmVzX3kyKSl7XG4gIHkyX2hhc19leHBvc3VyZXMgPC0geTFfaGFzX2V4cG9zdXJlc1xufWVsc2V7XG4gIHkyX2hhc19leHBvc3VyZXMgPC0gZFthcHBseShzZWxlY3QoZCwgYWxsX29mKGV4cG9zdXJlc195MikpLCAxLCBmaWx0ZXJpbmcpLF1cbn1cbnkyX2hhc19ib3RoPC15Ml9oYXNfZXhwb3N1cmVzW2FwcGx5KHNlbGVjdCh5Ml9oYXNfZXhwb3N1cmVzLCBhbGxfb2Yob3V0Y29tZXNfeTIpKSwgMSwgZmlsdGVyaW5nKSxdXG55Ml9jbHVzdGVyczwtbGVuZ3RoKHVuaXF1ZSh5Ml9oYXNfYm90aCRjbHVzdGVyaWQpKVxueTJfbjwtbnJvdyh5Ml9oYXNfYm90aClcbmlmKGlzLm51bGwoZXhwb3N1cmVzX3kzKSl7XG4gIHkzX2hhc19leHBvc3VyZXMgPC0geTJfaGFzX2V4cG9zdXJlc1xufWVsc2V7XG4gIHkzX2hhc19leHBvc3VyZXMgPC0gZFthcHBseShzZWxlY3QoZCwgYWxsX29mKGV4cG9zdXJlc195MykpLCAxLCBmaWx0ZXJpbmcpLF1cbn1cbnkzX2hhc19ib3RoPC15M19oYXNfZXhwb3N1cmVzW2FwcGx5KHNlbGVjdCh5M19oYXNfZXhwb3N1cmVzLCBhbGxfb2Yob3V0Y29tZXNfeTMpKSwgMSwgZmlsdGVyaW5nKSxdXG55M19jbHVzdGVyczwtbGVuZ3RoKHVuaXF1ZSh5M19oYXNfYm90aCRjbHVzdGVyaWQpKVxueTNfbjwtbnJvdyh5M19oYXNfYm90aClcblxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+
+exposures_y1 &lt;- c(\ln_preg_cort\, \logCRP\, \logAGP\, \mom_t0_ln_ifn\, \sumscore_t0_mom_Z\, \ln_preg_estri\)
+outcomes_y1 &lt;- c(\ln_mpo1\,\ln_aat1\,\ln_neo1\, \ln_L_conc_t1\,\ln_M_conc_t1\)
 exposures_y2 &lt;- NULL #IF EXPOSURES ARE MATERNAL PREGNANCY BIOMARKERS DO NOT USE exposures_y2 - OTHERWISE FILL IN WITH EXPOSURES AT YEAR 2
 exposures_y3 &lt;- NULL
-outcomes_y2 &lt;- c(&quot;ln_mpo2&quot;, &quot;ln_aat2&quot;, &quot;ln_neo2&quot;, &quot;ln_reg2&quot;,&quot;ln_L_conc_t2&quot;,  &quot;ln_M_conc_t2&quot;)
-outcomes_y3 &lt;- c( &quot;ln_mpo3&quot;, &quot;ln_aat3&quot;,&quot;ln_neo3&quot;, &quot;ln_L_conc_t3&quot;,  &quot;ln_M_conc_t3&quot;)
+outcomes_y2 &lt;- c(\ln_mpo2\, \ln_aat2\, \ln_neo2\, \ln_reg2\,\ln_L_conc_t2\,  \ln_M_conc_t2\)
+outcomes_y3 &lt;- c( \ln_mpo3\, \ln_aat3\,\ln_neo3\, \ln_L_conc_t3\,  \ln_M_conc_t3\)
 
 #function for filtering for only participants with at least one outcome
 filtering &lt;- function(row){
@@ -1808,49 +1824,116 @@ y3_has_both&lt;-y3_has_exposures[apply(select(y3_has_exposures, all_of(outcomes_
 y3_clusters&lt;-length(unique(y3_has_both$clusterid))
 y3_n&lt;-nrow(y3_has_both)
 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9udGgzIDwtIDU2NSAtIHkxX25cbm1vbnRoMTQgPC0gNzU2LXkyX25cbm1vbnRoMjggPC0gNzU5LSB5M19uXG55MV9jbHVzdGVyc1xuYGBgIn0= -->
-<pre class="r"><code>month3 &lt;- 565 - y1_n
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubW9udGgzIDwtIDU2NSAtIHkxX25cbm1vbnRoMTQgPC0gNzU2LXkyX25cbm1vbnRoMjggPC0gNzU5LSB5M19uXG55MV9jbHVzdGVyc1xuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+month3 &lt;- 565 - y1_n
 month14 &lt;- 756-y2_n
 month28 &lt;- 759- y3_n
 y1_clusters</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDY5XG4ifQ== -->
-<pre><code>[1] 69</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueTJfY2x1c3RlcnNcbmBgYCJ9 -->
-<pre class="r"><code>y2_clusters</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDkzXG4ifQ== -->
-<pre><code>[1] 93</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueTNfY2x1c3RlcnNcbmBgYCJ9 -->
-<pre class="r"><code>y3_clusters</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDk3XG4ifQ== -->
-<pre><code>[1] 97</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueTFfblxuYGBgIn0= -->
-<pre class="r"><code>y1_n</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDMxN1xuIn0= -->
-<pre><code>[1] 317</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueTJfblxuYGBgIn0= -->
-<pre class="r"><code>y2_n</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDQ5OFxuIn0= -->
-<pre><code>[1] 498</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueTNfblxuYGBgIn0= -->
-<pre class="r"><code>y3_n</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDUyMVxuIn0= -->
-<pre><code>[1] 521</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDY5XG4ifQ== --&gt;
+</code></pre>
+<p>[1] 69</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxueTJfY2x1c3RlcnNcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+y2_clusters</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDkzXG4ifQ== --&gt;
+</code></pre>
+<p>[1] 93</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxueTNfY2x1c3RlcnNcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+y3_clusters</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDk3XG4ifQ== --&gt;
+</code></pre>
+<p>[1] 97</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxueTFfblxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+y1_n</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDMxN1xuIn0= --&gt;
+</code></pre>
+<p>[1] 317</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxueTJfblxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+y2_n</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDQ5OFxuIn0= --&gt;
+</code></pre>
+<p>[1] 498</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxueTNfblxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+y3_n</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDUyMVxuIn0= --&gt;
+</code></pre>
+<p>[1] 521 ```</p>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
