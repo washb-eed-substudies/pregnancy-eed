@@ -80,4 +80,3 @@ tableau10 <- c("#1F77B4","#FF7F0E","#2CA02C","#D62728",
 # # Only run these lines when needed (upon initialization and then when package versions need to be restored)
 # #call renv::restore() to  revert to the previous state as encoded in the lockfile 
 # renv::restore()
-

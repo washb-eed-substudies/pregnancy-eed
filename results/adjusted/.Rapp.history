@@ -1,0 +1,3 @@
+load("/Users/xianshengyan/pregnancy-eed/results/adjusted/H1_adj_res.RDS")
+load("/Users/xianshengyan/pregnancy-eed/results/adjusted/emm_tr_adj_res.RDS")
+load("/Users/xianshengyan/pregnancy-eed/results/adjusted/H1_BH_adj_res.RDS")

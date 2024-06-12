@@ -1,0 +1,110 @@
+---
+title: "Pregnancy-EED tables.R"
+output: html_notebook
+---
+
+```{r}
+rm(list=ls())
+
+rm(list=ls())
+library(boxr)
+library(dplyr)
+library(ggplot2)
+library(ggcorrplot)
+library(gridExtra)
+
+library(devtools)
+#install_github("ben-arnold/washb")
+library(tidyverse)
+library(haven)
+library(washb)
+library(tmle)
+library(foreign)
+library(data.table)
+library(devtools)
+library(kableExtra)
+library(here)
+library(boxr)
+library(here)
+
+source("table-functions.R")
+```
+
+```{r}
+H1 <- readRDS('/Users/xianshengyan/pregnancy-eed/results/unadjusted/H1_BH_res.RDS')
+H3 <- readRDS('/Users/xianshengyan/pregnancy-eed/results/unadjusted/H3_BH_res.RDS')
+H1adj <- readRDS('/Users/xianshengyan/pregnancy-eed/results/adjusted/H1_BH_adj_res.RDS')
+H3adj <- readRDS('/Users/xianshengyan/pregnancy-eed/results/adjusted/H3_BH_adj_res.RDS')
+
+full_res <- rbind(H1, H3)
+full_adj_res <- rbind(H1adj, H3adj)
+```
+
+```{r}
+#### Table 1 Results ####
+### name: string name of group of exposures
+  ### expo_var: vector of string exposures to include in table
+  ### out_var: vector of string outcomes to include in table
+  ### exposure: vector of string exposure variable names
+  ### outcome: vector of string outcome variable names
+  ### results: data frame with unadjusted results
+  ### results_adj: data frame with adjusted results
+  ### adj_only: T or F if T will produce table with only the adjusted results, otherwise will display all results together
+  
+  ### this function produces a table that can be saved as a csv
+
+exposure <- c("ln_preg_cort") 
+outcome <- c("ln_L_conc_t1", "ln_M_conc_t1", "ln_mpo1", "ln_aat1", "ln_neo1", "ln_L_conc_t2", "ln_M_conc_t2", "ln_mpo2", "ln_aat2", "ln_neo2", "ln_reg2", "ln_L_conc_t3", "ln_M_conc_t3","ln_mpo3", "ln_aat3", "ln_neo3")
+ 
+expo_var <- c("Ln Cortisol (ug/dL)") 
+ 
+out_var <- c("Ln Lactulose Age 3 months (mmol/L)", "Ln Mannitol Age 3 months (mmol/L)", "Ln MPO Age 3 months (ng/mL)", "Ln AAT Age 3 months(mg/g)", "Ln NEO Age 3 months (nmol/L)", "Ln Lactulose Age 14 months (mmol/L)", "Ln Mannitol Age 14 months (mmol/L)", "Ln MPO Age 14 months (ng/mL)", "Ln AAT Age 14 months(mg/g)", "Ln NEO Age 14 months (nmol/L)", "Ln REG1β Age 14 months (µg/mL)", "Ln Lactulose 28 months (mmol/L)", "Ln Mannitol Age 28 months (mmol/L)", "Ln MPO Age 28 months (ng/mL)", "Ln AAT Age 28 months(mg/g)", "Ln NEO Age 28 months (nmol/L)")
+ 
+tbl1 <- growth_tbl("Maternal Cortisol and Child EED Biomarkers", expo_var, out_var, exposure, outcome, H1, H1adj, T)
+tbl1flex <- growth_tbl_flex("Maternal Cortisol and EED", expo_var, out_var, exposure, outcome, H1, H1adj, T, 1.1, 1.4)
+tbl1supp <- growth_tbl("Maternal Cortisol and Child EED Biomarkers", expo_var, out_var, exposure, outcome, H1, H1adj)
+tbl1flexsupp <- growth_tbl_flex("Maternal Cortisol and Child EED Biomarkers", expo_var, out_var, exposure, outcome, H1, H1adj)
+ 
+#### Table 3 Results ####
+
+exposure <- c("ln_preg_estri") 
+outcome <- c("ln_L_conc_t1", "ln_M_conc_t1", "ln_mpo1", "ln_aat1", "ln_neo1", "ln_L_conc_t2", "ln_M_conc_t2", "ln_mpo2", "ln_aat2", "ln_neo2", "ln_reg2", "ln_L_conc_t3", "ln_M_conc_t3","ln_mpo3", "ln_aat3", "ln_neo3")
+ 
+expo_var <- c("Ln Estriol (ng/mL)") 
+ 
+out_var <- c("Ln Lactulose Age 3 months (mmol/L)", "Ln Mannitol Age 3 months (mmol/L)", "Ln MPO Age 3 months (ng/mL)", "Ln AAT Age 3 months(mg/g)", "Ln NEO Age 3 months (nmol/L)", "Ln Lactulose Age 14 months (mmol/L)", "Ln Mannitol Age 14 months (mmol/L)", "Ln MPO Age 14 months (ng/mL)", "Ln AAT Age 14 months(mg/g)", "Ln NEO Age 14 months (nmol/L)", "Ln REG1β Age 14 months (µg/mL)", "Ln Lactulose 28 months (mmol/L)", "Ln Mannitol Age 28 months (mmol/L)", "Ln MPO Age 28 months (ng/mL)", "Ln AAT Age 28 months(mg/g)", "Ln NEO Age 28 months (nmol/L)")
+ 
+tbl3 <- growth_tbl("Maternal Estriol and Child EED Biomarkers", expo_var, out_var, exposure, outcome, H3, H3adj, T)
+tbl3flex <- growth_tbl_flex("Maternal Estriol and EED", expo_var, out_var, exposure, outcome, H3, H3adj, T, 1.1, 1.4)
+tbl3supp <- growth_tbl("Maternal Estriol and Child EED Biomarkers", expo_var, out_var, exposure, outcome, H3, H3adj)
+tbl3flexsupp <- growth_tbl_flex("Maternal Estriol and Child EED Biomarkers", expo_var, out_var, exposure, outcome, H3, H3adj)
+ 
+
+```
+
+
+```{r}
+#### SAVE TABLES ####
+
+write.csv(tbl1, '/Users/xianshengyan/pregnancy-eed/tables/main/pregnancy-eed-table1.csv')
+write.csv(tbl1supp, '/Users/xianshengyan/pregnancy-eed/tables/supplementary/eed-supptable1.csv')
+
+
+#### SAVE TABLES ####
+
+write.csv(tbl3,'/Users/xianshengyan/pregnancy-eed/tables/main/pregnancy-eed-table3.csv')
+write.csv(tbl3supp, '/Users/xianshengyan/pregnancy-eed/tables/supplementary/eed-supptable3.csv')
+
+save_as_docx("Table 1: Maternal Cortisol and Child EED Biomarkers" = tbl1flex, "Table 3: Maternal Estriol and Child EED Biomarkers" = tbl3flex,
+             path='/Users/xianshengyan/pregnancy-eed/tables/pregnancy-eed.docx', pr_section = sect_properties) 
+
+save_as_docx("Table S1: Maternal Cortisol and Child EED Biomarkers" = tbl1flexsupp, "Table S3: Maternal Estriol and Child EED Biomarkers" = tbl3flexsupp,
+              path='/Users/xianshengyan/pregnancy-eed/tables/pregnancy-eed-supplementary.docx', pr_section = sect_properties) 
+
+             
+
+```
+
+
+
+
