@@ -1,12 +1,13 @@
 rm(list=ls())
 
 # Load libraries and configuration
-source(here::here("0-config.R"))
+source(here::here("src/0-config.R"))
 library(here)
 library(VIM)
 
 # Construct the path to the RDS file directly within the project folder
-data_path <- here("bangladesh-cleaned-master-data.RDS")
+#data_path <- here("bangladesh-cleaned-master-data.RDS")
+data_path <- "C:/Users/andre/Documents/EE/eed-substudy-data/bangladesh-cleaned-master-data.RDS"
 
 # Read the data from the RDS file
 d <- readRDS(data_path)

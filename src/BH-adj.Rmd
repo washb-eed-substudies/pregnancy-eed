@@ -29,6 +29,7 @@ library(here)
 ```
 
 ```{r}
+setwd(here::here())
 H1_res <- readRDS('results/unadjusted/H1_res.RDS')
 H3_res <- readRDS('results/unadjusted/H3_res.RDS')
 
@@ -57,11 +58,11 @@ full_adj_res <- full_adj_res %>% group_by(H) %>%
   ungroup() %>%
   as.data.frame()
 
-saveRDS(full_res %>% filter(H==1) %>% select(-H), "results/unadjusted/H1_BH_res.RDS")
-saveRDS(full_res %>% filter(H==3) %>% select(-H), "results/unadjusted/H3_BH_res.RDS")
+saveRDS(full_res %>% filter(H==1) %>% select(-H), here("results/unadjusted/H1_BH_res.RDS"))
+saveRDS(full_res %>% filter(H==3) %>% select(-H), here("results/unadjusted/H3_BH_res.RDS"))
 
-saveRDS(full_adj_res %>% filter(H==1) %>% select(-H), "results/adjusted/H1_BH_adj_res.RDS")
-saveRDS(full_adj_res %>% filter(H==3) %>% select(-H), "results/adjusted/H3_BH_adj_res.RDS")
+saveRDS(full_adj_res %>% filter(H==1) %>% select(-H), here("results/adjusted/H1_BH_adj_res.RDS"))
+saveRDS(full_adj_res %>% filter(H==3) %>% select(-H), here("results/adjusted/H3_BH_adj_res.RDS"))
 ```
 
 
