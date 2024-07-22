@@ -31,16 +31,16 @@
 #--------------------------------------------------------------
 
 # data=d
-# Y=Yvars[1]
-# X=Xvars[1]
-# pair = NULL
-# W=pick_covariates(Y)
+# Y="ln_L_conc_t1"
+# X="ln_preg_cort"
+# pair = NULL 
+# W = NULL #pick_covariates(Y)
 # forcedW = NULL
 # V = NULL
 # id = "clusterid"
 # family = "gaussian"
 # pval = 0.2
-# print = TRUE 
+# print = TRUE
 # verbose = FALSE
 # B = 200
 
@@ -59,7 +59,8 @@ washb_glm_lasso_boot <- function(data, Y, X, pair = NULL, W, forcedW = NULL, V =
     if(!is.null(W)) {
       glmdat <- data.frame(Y=data[[Y]], X=data[[X]], id=data[[id]], W)
     }else{
-      glmdat <- data.frame(Y, X, id)
+      colnamesW=NULL
+      glmdat <- data.frame(Y=data[[Y]], X=data[[X]], id=data[[id]])
     }
 
 
