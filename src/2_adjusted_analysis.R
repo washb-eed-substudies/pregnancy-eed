@@ -6,7 +6,7 @@ source(here::here("functions/cowboy_glm.R"))
 
 # Construct the path to the RDS file directly within the project folder
 #data_path <- here("bangladesh-cleaned-master-data.RDS")
-data_path <- "C:/Users/andre/Documents/EE/eed-substudy-data/bangladesh-cleaned-master-data.RDS"
+data_path <- "C:/Users/andre/Dropbox/WASHB-EE-analysis/bangladesh-cleaned-master-data.RDS"
 
 # Read the data from the RDS file
 d <- readRDS(data_path)
@@ -72,7 +72,7 @@ saveRDS(H1_adj_res, here("results/adjusted/H1_adj_res.RDS"))
 #-------------------------------------------------------------------------------
 # Hypothesis 2
 #-------------------------------------------------------------------------------
-Xvars <- c("agp", "crp", "sumscore_t0_mom_Z")
+Xvars <- c("logCRP", "logAGP", "sumscore_t0_mom_Z")
 Yvars <- c("ln_L_conc_t1", "ln_M_conc_t1", "ln_mpo1", "ln_aat1", "ln_neo1", 
            "ln_L_conc_t2", "ln_M_conc_t2", "ln_mpo2", "ln_aat2", "ln_neo2", "ln_reg2", 
            "ln_L_conc_t3", "ln_M_conc_t3","ln_mpo3", "ln_aat3", "ln_neo3")
