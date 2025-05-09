@@ -28,7 +28,7 @@ library(washbgam)
 
 library(here)
 source("table-functions.R")
-source("0-config.R")
+
 ```
 
 ```{r}
