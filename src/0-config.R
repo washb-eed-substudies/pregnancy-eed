@@ -17,6 +17,7 @@ library(kableExtra)
 library(here)
 library(mgcv)
 library(psych)
+library(VIM)
 
 
 if(!require(faraway)){
