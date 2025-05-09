@@ -28,8 +28,16 @@ data_path <- "bangladesh-cleaned-master-data.RDS"
 
 # Read the data from the RDS file
 d <- readRDS(data_path)
+```  
 
-```
+```{r}
+hist(as.numeric(d$gest_age_weeks), 
+     main = "Histogram of Gestational Age (weeks)", 
+     xlab = "Gestational Age (weeks)", 
+     col = "lightblue", 
+     border = "black")
+
+```   
 
 
 ```{r}
